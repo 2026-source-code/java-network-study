@@ -13,11 +13,17 @@ public class MyClient3 {
             PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
             Scanner socketSc = new Scanner(socket.getInputStream());
 
+            String response = "";
             while(true){
                 String keyboardData = sc.nextLine();
-                pw.println(keyboardData); // ln이 \n이 넣어주고, autoFlush가 된다.
-                String recv = socketSc.nextLine();
-                System.out.println("서버로 부터 받은 메시지 : "+recv);
+                pw.println(keyboardData); // /html, /data
+
+                while(socketSc.hasNextLine()){
+                    String recv = socketSc.nextLine();
+                    if ("__END__".equals(recv)) break;
+                    response = response + recv;
+                }
+                System.out.println(response);
             }
 
 
